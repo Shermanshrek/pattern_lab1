@@ -5,11 +5,11 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-public class Proxy {
+class ProxyPat {
     private final int serverPort;
     private final String serverHost;
 
-    public Proxy(int serverPort, String serverHost) {
+    public ProxyPat(int serverPort, String serverHost) {
         this.serverPort = serverPort;
         this.serverHost = serverHost;
     }
@@ -30,7 +30,7 @@ public class Proxy {
     }
 
     public static void main(String[] args) {
-        Proxy proxy = new Proxy(5000, "localhost");
+        ProxyPat proxy = new ProxyPat(5000, "localhost");
 
         double[][] tests = {
                 {2.5, 3.0},
