@@ -3,6 +3,7 @@ package utils;
 import exceptions.DuplicateModelNameException;
 import factory.AutoFactory;
 import factory.TransportFactory;
+import vehicle.SynchronizedVehicle;
 import vehicle.Vehicle;
 
 import java.util.Arrays;
@@ -39,5 +40,10 @@ public class VehicleUtils {
 
     public static Vehicle createInstance(String name, int size) throws DuplicateModelNameException {
         return factory.createInstance(name, size);
+    }
+
+    // lab 2
+    public static Vehicle synchronizedTransport(Vehicle vehicle) {
+        return new SynchronizedVehicle(vehicle);
     }
 }
