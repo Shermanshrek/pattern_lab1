@@ -14,7 +14,8 @@ public class Auto implements Vehicle, Cloneable {
         this.brand = brand;
         models = new Model[size];
         for (int i = 0; i < size; i++) {
-            models[i] = new Model("Auto" + i, 1 + i);
+            models[i].modelName = "Auto" + i;
+            models[i].price = 1 + i;
         }
     }
 

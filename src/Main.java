@@ -1,32 +1,24 @@
-import adapter.StringStreamAdapter;
 import config.ConfigLoader;
 import exceptions.DuplicateModelNameException;
 import exceptions.NoSuchModelNameException;
 import vehicle.Motocycle;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) throws DuplicateModelNameException, NoSuchModelNameException, CloneNotSupportedException {
-        try{
-            String[] originStrings = {"привет", "это", "я"};
-            System.out.println("Строка до адаптации: " + Arrays.toString(originStrings));
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        ConfigLoader configLoader1 = ConfigLoader.getInstance();
+//        ConfigLoader configLoader2 = ConfigLoader.getInstance();
+//        System.out.println(configLoader1.getProperties());
+//        if (configLoader1 == configLoader2) {
+//            System.out.println("true");
+//        }
+//        else System.out.println("false");
+        Motocycle moto1 = new Motocycle("biba", 5);
+        Motocycle moto2 = moto1.clone();
 
-            StringStreamAdapter.writeStrings(baos, originStrings);
-            byte[] bytes = baos.toByteArray();
-            System.out.println("Записано байт: " + bytes.length);
-            System.out.println("Байты: " + Arrays.toString(bytes));
-
-            // чтение строк из потока
-            ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
-            String[] restoredStrings = StringStreamAdapter.readStrings(bais);
-            System.out.println("Восстановленные строки: " + Arrays.toString(restoredStrings));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        moto1.setModelName("Moto1", "test");
+        System.out.println(Arrays.toString(moto1.getModelNames()));
+        System.out.println(Arrays.toString(moto2.getModelNames()));
     }
 }
