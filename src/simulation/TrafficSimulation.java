@@ -15,7 +15,8 @@ public class TrafficSimulation extends JPanel {
         timer = new Timer(50, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                facade.update();
+                // Передаём текущую ширину панели в фасад
+                facade.update(getWidth());
                 repaint();
             }
         });
@@ -33,11 +34,10 @@ public class TrafficSimulation extends JPanel {
         int lightX = facade.getLightX();
         int lightY = facade.getLightY();
         g.setColor(Color.BLACK);
-        g.fillRect(lightX - 10, lightY - 30, 20, 80); // столб
+        g.fillRect(lightX - 10, lightY - 30, 20, 80);
         g.setColor(Color.DARK_GRAY);
-        g.fillRect(lightX - 20, lightY - 40, 40, 90); // корпус
+        g.fillRect(lightX - 20, lightY - 40, 40, 90);
 
-        // Сигналы – используем публичный enum из фасада
         TrafficFacade.LightColor color = facade.getLightColor();
         drawLight(g, lightX, lightY - 20, Color.RED, color == TrafficFacade.LightColor.RED);
         drawLight(g, lightX, lightY, Color.YELLOW, color == TrafficFacade.LightColor.YELLOW);

@@ -26,6 +26,8 @@ class Car {
     public void go() { stopped = false; }
 
     public double getX() { return x; }
+    public void setX(double x) { this.x = x; }
+
     public int getY() { return y; }
     public int getWidth() { return width; }
     public int getHeight() { return height; }

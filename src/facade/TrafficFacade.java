@@ -1,12 +1,11 @@
 package facade;
 
 public class TrafficFacade {
-    // Публичный enum для цвета светофора (доступен клиентам)
     public enum LightColor { RED, YELLOW, GREEN }
 
     private Car car;
     private TrafficLight light;
-    private int lightX = 400;
+    private int lightX = 700;
     private int lightY = 100;
     private int carY = 200;
 
@@ -14,17 +13,19 @@ public class TrafficFacade {
     private int frameCounter = 0;
 
     public TrafficFacade() {
-        car = new Car(50, carY, 60, 30, 2);
+        car = new Car(50, carY, 60, 30, 2); // начальная x=50
         light = new TrafficLight();
     }
 
-    public void update() {
+    public void update(int windowWidth) {
+        // Переключение светофора
         frameCounter++;
         if (frameCounter >= LIGHT_CYCLE_FRAMES) {
             light.nextColor();
             frameCounter = 0;
         }
 
+        // Логика остановки автомобиля
         TrafficLight.Color currentColor = light.getColor();
         double carX = car.getX();
 
@@ -35,19 +36,21 @@ public class TrafficFacade {
         }
 
         car.move();
-    }
 
-    // Возвращает текущий цвет светофора в виде публичного enum'а
-    public LightColor getLightColor() {
-        switch (light.getColor()) {
-            case RED:    return LightColor.RED;
-            case YELLOW: return LightColor.YELLOW;
-            case GREEN:  return LightColor.GREEN;
-            default:     return LightColor.RED; // не должно достигаться
+        // Проверка выхода за правую границу: если автомобиль полностью скрылся, перемещаем влево
+        if (car.getX() > windowWidth) {
+            car.setX(-car.getWidth());  // появляется слева за границей
         }
     }
 
-    // Методы для отрисовки
+    public LightColor getLightColor() {
+        return switch (light.getColor()) {
+            case YELLOW -> LightColor.YELLOW;
+            case GREEN -> LightColor.GREEN;
+            default -> LightColor.RED;
+        };
+    }
+
     public int getCarX() { return (int) car.getX(); }
     public int getCarY() { return carY; }
     public int getCarWidth() { return car.getWidth(); }
