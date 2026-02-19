@@ -12,7 +12,7 @@ class ProxyServer {
             while (true) {
                 Socket socket = serverSocket.accept();
                 System.out.println("Подключился клиент: " + socket.getInetAddress());
-                new Thread(new ProxyClient(socket)).start();
+                new Thread(new ServerMultiplier(socket)).start();
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

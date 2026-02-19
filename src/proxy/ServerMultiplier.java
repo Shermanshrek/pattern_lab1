@@ -5,7 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-record ProxyClient(Socket socket) implements Runnable {
+record ServerMultiplier(Socket socket) implements Runnable {
     @Override
     public void run() {
         try (DataInputStream in = new DataInputStream(socket.getInputStream());
