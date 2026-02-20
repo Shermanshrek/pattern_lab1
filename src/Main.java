@@ -1,8 +1,11 @@
 import config.ConfigLoader;
 import exceptions.DuplicateModelNameException;
 import exceptions.NoSuchModelNameException;
+import factory.MotocycleFactory;
+import utils.VehicleUtils;
 import vehicle.Auto;
 import vehicle.Motocycle;
+import vehicle.Vehicle;
 
 import java.util.Arrays;
 
@@ -16,7 +19,14 @@ public class Main {
         }
         else System.out.println("false");
         testAuto();
+        System.out.println("==========MOTOCYCLE==========");
         testMoto();
+
+        Vehicle fact1 = VehicleUtils.createInstance("bmw", 2);
+        System.out.println(fact1.getClass());
+        VehicleUtils.setFactory(new MotocycleFactory());
+        Vehicle fact2 = VehicleUtils.createInstance("bmw", 2);
+        System.out.println(fact2.getClass());
     }
 
     private static void testAuto() throws DuplicateModelNameException, NoSuchModelNameException, CloneNotSupportedException {
@@ -54,9 +64,6 @@ public class Main {
         // меняем клона
         clonedAuto.setBrand("BMW");
         clonedAuto.setModelName("Granta", "X5");
-        clonedAuto.setPriceByName("Lada1", 999.0);
-        clonedAuto.addModel("M3", 70000.0);
-        clonedAuto.removeModel("Vesta");
 
         System.out.println("\nПосле изменений в клоне:");
         System.out.println("Оригинал (не должен измениться):");

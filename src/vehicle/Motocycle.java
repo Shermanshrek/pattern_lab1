@@ -30,7 +30,7 @@ public class Motocycle implements Vehicle, Cloneable {
         cloned.head = new Model();
         cloned.head.prev = cloned.head;
         cloned.head.next = cloned.head;
-        cloned.size = 0;
+//        cloned.size = 0;
 
         Model current = this.head.next;
         while (current != this.head) {
@@ -44,7 +44,7 @@ public class Motocycle implements Vehicle, Cloneable {
             newModel.next = cloned.head;
             cloned.head.prev = newModel;
 
-            cloned.size++;
+//            cloned.size++;
             current = current.next;
         }
 
