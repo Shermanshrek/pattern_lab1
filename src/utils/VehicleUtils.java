@@ -15,7 +15,7 @@ public class VehicleUtils {
         factory = new AutoFactory();
     }
 
-    public void setFactory(TransportFactory factory) {
+    public static void setFactory(TransportFactory factory) {
         VehicleUtils.factory = factory;
     }
 

@@ -5,7 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-class CustomProxy {
+public class CustomProxy {
     private final int serverPort;
     private final String serverHost;
 

@@ -1,4 +1,6 @@
-package proxy;
+package client;
+
+import proxy.CustomProxy;
 
 class Client {
     public static void main(String[] args) {

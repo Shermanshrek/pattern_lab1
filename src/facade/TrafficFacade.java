@@ -13,7 +13,7 @@ public class TrafficFacade {
     private int frameCounter = 0;
 
     public TrafficFacade() {
-        car = new Car(50, carY, 60, 30, 2); // начальная x=50
+        car = new Car(50, carY, 60, 30, 10); // начальная x=50
         light = new TrafficLight();
     }
 
