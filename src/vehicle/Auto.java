@@ -14,12 +14,12 @@ public class Auto implements Vehicle, Cloneable {
         this.brand = brand;
         models = new Model[size];
         for (int i = 0; i < size; i++) {
-            models[i] = new Model("Auto" + i, 1 + i);
+            models[i] = new Model(brand + i, 1 + i);
         }
     }
 
     @Override
-    protected Auto clone() throws CloneNotSupportedException {
+    public Auto clone() throws CloneNotSupportedException {
         Auto res = null;
         try {
             res = (Auto) super.clone();

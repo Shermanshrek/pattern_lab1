@@ -19,7 +19,7 @@ public class Motocycle implements Vehicle, Cloneable {
         this.brand = brand;
         this.size = 0;
         for (int i = 0; i < size; i++) {
-            addModel("Moto" + i, 1 + i);
+            addModel(brand + i, 1 + i);
         }
     }
 
