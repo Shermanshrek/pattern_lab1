@@ -1,9 +1,11 @@
 package vehicle;
 
+import Command.Command;
 import exceptions.DuplicateModelNameException;
 import exceptions.ModelPriceOutOfBoundsException;
 import exceptions.NoSuchModelNameException;
 
+import java.io.PrintWriter;
 import java.util.Arrays;
 
 public class Auto implements Vehicle, Cloneable {
@@ -162,5 +164,15 @@ public class Auto implements Vehicle, Cloneable {
             }
         }
         return flag;
+    }
+
+    private Command cmd;
+
+    public void print(PrintWriter pw) throws Exception {
+        cmd.writeInFile(pw, this);
+    }
+
+    public void setPrintCommand(Command cmd) {
+        this.cmd = cmd;
     }
 }
