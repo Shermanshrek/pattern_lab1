@@ -5,10 +5,12 @@ import exceptions.DuplicateModelNameException;
 import exceptions.ModelPriceOutOfBoundsException;
 import exceptions.NoSuchModelNameException;
 
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
-public class Auto implements Vehicle, Cloneable {
+public class Auto implements Vehicle, Cloneable, Serializable {
     private String brand;
     private Model[] models;
 
@@ -16,7 +18,7 @@ public class Auto implements Vehicle, Cloneable {
         this.brand = brand;
         models = new Model[size];
         for (int i = 0; i < size; i++) {
-            models[i] = new Model("Auto" + i, 1 + i);
+            models[i] = new Model(this.brand + i, 1 + i);
         }
     }
 
@@ -35,7 +37,7 @@ public class Auto implements Vehicle, Cloneable {
         return res;
     }
 
-    private class Model implements Cloneable {
+    static class Model implements Cloneable, Serializable {
         private String modelName;
         private double price;
 
@@ -54,6 +56,70 @@ public class Auto implements Vehicle, Cloneable {
             }
             return md;
         }
+
+        @Override
+        public String toString() {
+            return String.format("%s: %s", modelName, price);
+        }
+    }
+
+    private class AutoIterator implements Iterator<Model> {
+        private int currentIndex = 0;
+
+        @Override
+        public boolean hasNext() {
+            return currentIndex < models.length;
+        }
+
+        @Override
+        public Model next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            return models[currentIndex++];
+        }
+    }
+
+    public static class Memento {
+        private byte[] state;
+
+        public void setAuto(Auto auto) {
+            try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                 ObjectOutputStream oos = new ObjectOutputStream(baos)) {
+                oos.writeObject(auto);
+                state = baos.toByteArray();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        public Auto getAuto() {
+            try (ByteArrayInputStream bais = new ByteArrayInputStream(state);
+                 ObjectInputStream ois = new ObjectInputStream(bais)) {
+                return (Auto) ois.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+    }
+
+    public Memento createMemento() {
+        Memento memento = new Memento();
+        memento.setAuto(this);
+        return memento;
+    }
+
+    public void setMemento(Memento memento) {
+        Auto restoredAuto = memento.getAuto();
+        if (restoredAuto != null) {
+            this.brand = restoredAuto.getBrand();
+            this.models = restoredAuto.models;
+        }
+    }
+
+    public Iterator<Model> iterator() {
+        return new AutoIterator();
     }
 
     public int getSize() {
@@ -174,5 +240,53 @@ public class Auto implements Vehicle, Cloneable {
 
     public void setPrintCommand(Command cmd) {
         this.cmd = cmd;
+    }
+
+    public void printAuto(Auto auto) {
+        System.out.println("Brand: " + auto.getBrand());
+        for (int i = 0; i < auto.getSize(); i++) {
+            System.out.println("Model: " + auto.getModelNames()[i] + " Price: " + auto.getModelPrices()[i]);
+        }
+        ;
+    }
+
+    public static void main(String[] args) throws NoSuchModelNameException {
+        // Iterator
+        Auto auto = new Auto("Toyota", 3);
+        try {
+            auto.addModel("Camry", 25000);
+        } catch (DuplicateModelNameException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Бренд: " + auto.getBrand());
+        System.out.println("Модели через итератор:");
+        Iterator<Auto.Model> it = auto.iterator();
+        while (it.hasNext()) {
+            System.out.println(it.next());
+        }
+
+        //Memento
+        System.out.println();
+        Auto bmw = new Auto("BMW", 3);
+        System.out.println("До изменений:");
+        bmw.printAuto(bmw);
+
+        Auto.Memento memento = bmw.createMemento();
+
+        try {
+            bmw.setModelName("BMW1", "BMW X5");
+            bmw.setPriceByName("BMW X5", 25000);
+        } catch (DuplicateModelNameException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("После изменений:");
+        bmw.printAuto(bmw);
+
+
+        System.out.println("Восстанавливаем состояние:");
+        bmw.setMemento(memento);
+        bmw.printAuto(bmw);
     }
 }
