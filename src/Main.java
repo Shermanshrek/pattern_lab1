@@ -5,7 +5,7 @@ import Command.OneLineCommand;
 import exceptions.DuplicateModelNameException;
 import exceptions.NoSuchModelNameException;
 import vehicle.Auto;
-import vehicle.Motocycle;
+import vehicle.Motorcycle;
 import vehicle.Vehicle;
 
 import java.io.IOException;
@@ -29,7 +29,7 @@ public class Main {
             printInLine.printVehicle(autoLarge, "auto_large.txt");
             System.out.println("Файл auto_large.txt создан.");
 
-            Vehicle moto = new Motocycle("Yamaha", 4);
+            Vehicle moto = new Motorcycle("Yamaha", 4);
             printInColumn.printVehicle(moto, "moto.txt");
             System.out.println("Файл moto.txt создан.");
         } catch (DuplicateModelNameException e) {

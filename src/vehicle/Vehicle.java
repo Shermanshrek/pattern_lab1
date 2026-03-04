@@ -1,11 +1,13 @@
 package vehicle;
 
+import Visitor.Visitor;
 import exceptions.DuplicateModelNameException;
 import exceptions.NoSuchModelNameException;
 
 public interface Vehicle {
     void setBrand(String brand);
     String getBrand();
+    void accept(Visitor visitor);
 
     void setModelName(String oldName, String newName) throws NoSuchModelNameException, DuplicateModelNameException;
     String[] getModelNames();
@@ -14,4 +16,5 @@ public interface Vehicle {
     double[] getModelPrices();
     void addModel(String modelName, double price) throws DuplicateModelNameException;
     void removeModel(String modelName) throws NoSuchModelNameException;
+
 }

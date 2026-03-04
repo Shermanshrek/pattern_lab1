@@ -1,5 +1,6 @@
 package vehicle;
 
+import Visitor.Visitor;
 import exceptions.DuplicateModelNameException;
 import exceptions.NoSuchModelNameException;
 
@@ -18,6 +19,11 @@ public class SynchronizedVehicle implements Vehicle {
     @Override
     public synchronized String getBrand() {
         return vehicle.getBrand();
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+
     }
 
     @Override

@@ -1,6 +1,7 @@
 package vehicle;
 
 import Command.Command;
+import Visitor.Visitor;
 import exceptions.DuplicateModelNameException;
 import exceptions.ModelPriceOutOfBoundsException;
 import exceptions.NoSuchModelNameException;
@@ -248,6 +249,11 @@ public class Auto implements Vehicle, Cloneable, Serializable {
             System.out.println("Model: " + auto.getModelNames()[i] + " Price: " + auto.getModelPrices()[i]);
         }
         ;
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 
     public static void main(String[] args) throws NoSuchModelNameException {

@@ -1,10 +1,11 @@
 package vehicle;
 
+import Visitor.Visitor;
 import exceptions.DuplicateModelNameException;
 import exceptions.ModelPriceOutOfBoundsException;
 import exceptions.NoSuchModelNameException;
 
-public class Motocycle implements Vehicle, Cloneable {
+public class Motorcycle implements Vehicle, Cloneable {
     private String brand;
     private Model head = new Model();
 
@@ -15,7 +16,7 @@ public class Motocycle implements Vehicle, Cloneable {
 
     private int size = 0;
 
-    public Motocycle(String brand, int size) throws DuplicateModelNameException {
+    public Motorcycle(String brand, int size) throws DuplicateModelNameException {
         this.brand = brand;
         this.size = 0;
         for (int i = 0; i < size; i++) {
@@ -24,8 +25,8 @@ public class Motocycle implements Vehicle, Cloneable {
     }
 
     @Override
-    public Motocycle clone() throws CloneNotSupportedException {
-        Motocycle cloned = (Motocycle) super.clone();
+    public Motorcycle clone() throws CloneNotSupportedException {
+        Motorcycle cloned = (Motorcycle) super.clone();
 
         cloned.head = new Model();
         cloned.head.prev = cloned.head;
@@ -168,5 +169,10 @@ public class Motocycle implements Vehicle, Cloneable {
             p = p.next;
         }
         return true;
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 }
