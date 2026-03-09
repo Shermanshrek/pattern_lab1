@@ -1,5 +1,6 @@
 package ChainOfResponsibility;
 
+import utils.VehicleUtils;
 import vehicle.Vehicle;
 
 import java.io.FileNotFoundException;
@@ -12,15 +13,7 @@ public class PrintInLine implements VehicleChain {
     public void printVehicle(Vehicle vehicle, String filename) throws FileNotFoundException {
         if (vehicle.getModelNames().length <= 3) {
             try(PrintWriter writer = new PrintWriter(filename)) {
-                writer.print("Brand: " + vehicle.getBrand() + "; ");
-                writer.print("Models: ");
-                for (String name : vehicle.getModelNames()) {
-                    writer.print(name + " ");
-                }
-                writer.print("; Prices: ");
-                for (double price : vehicle.getModelPrices()){
-                    writer.print(price + " ");
-                }
+                VehicleUtils.writeInline(vehicle, writer);
             }
         } else {
             if (next != null){
@@ -31,6 +24,7 @@ public class PrintInLine implements VehicleChain {
             }
         }
     }
+
 
     @Override
     public void setNext(VehicleChain next) {

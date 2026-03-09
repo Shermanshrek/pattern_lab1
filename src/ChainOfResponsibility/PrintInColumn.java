@@ -1,5 +1,6 @@
 package ChainOfResponsibility;
 
+import utils.VehicleUtils;
 import vehicle.Vehicle;
 
 import java.io.FileNotFoundException;
@@ -11,12 +12,7 @@ public class PrintInColumn implements VehicleChain {
     public void printVehicle(Vehicle vehicle, String filename) throws FileNotFoundException {
         if (vehicle.getModelNames().length > 3) {
             try(PrintWriter pw = new PrintWriter(filename)) {
-                pw.println("Brand: " + vehicle.getBrand());
-                double[] prices = vehicle.getModelPrices();
-                String[] names = vehicle.getModelNames();
-                for (int i = 0; i < names.length; i++) {
-                    pw.println("Model: " + names[i] + " Price: " + prices[i]);
-                }
+                VehicleUtils.writeColumn(vehicle, pw);
             }
         } else{
             if (next != null) {
