@@ -17,7 +17,7 @@ public class Mouth extends FacePart {
 
     @Override
     public void handleClick() {
-        smiling = !smiling; // переключение между улыбкой и нейтральным
+        smiling = !smiling;
         setChanged();
         notifyObservers();
     }
@@ -26,10 +26,10 @@ public class Mouth extends FacePart {
     public void draw(Graphics2D g2d) {
         g2d.setColor(Color.BLACK);
         if (smiling) {
-            // Улыбка (дуга вниз)
+            // Улыбка
             g2d.draw(new Arc2D.Double(x, y, width, height, 0, -180, Arc2D.OPEN));
         } else {
-            // Нейтральное (прямая линия)
+            // Нейтральное
             g2d.drawLine(x, y + height / 2, x + width, y + height / 2);
         }
     }

@@ -16,7 +16,6 @@ public class Nose extends FacePart {
 
     @Override
     public void handleClick() {
-        // Циклическая смена цвета
         if (color == Color.RED) color = Color.BLUE;
         else if (color == Color.BLUE) color = Color.GREEN;
         else color = Color.RED;

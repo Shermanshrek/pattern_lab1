@@ -233,6 +233,7 @@ public class Auto implements Vehicle, Cloneable, Serializable {
         return flag;
     }
 
+    //Command
     private Command cmd;
 
     public void print(PrintWriter pw) throws Exception {
@@ -248,9 +249,9 @@ public class Auto implements Vehicle, Cloneable, Serializable {
         for (int i = 0; i < auto.getSize(); i++) {
             System.out.println("Model: " + auto.getModelNames()[i] + " Price: " + auto.getModelPrices()[i]);
         }
-        ;
     }
 
+    //Visitor
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);

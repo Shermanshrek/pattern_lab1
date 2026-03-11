@@ -19,7 +19,7 @@ public class SleepingState implements State {
         // Глаза закрыты (линии)
         g.drawLine(x - 15, y - 10, x - 5, y - 10);
         g.drawLine(x + 5, y - 10, x + 15, y - 10);
-        // Рот — нейтральная линия
+        // Рот
         g.drawLine(x - 10, y + 10, x + 10, y + 10);
         // Символ сна
         g.drawString("Zzz", x + 20, y - 40);

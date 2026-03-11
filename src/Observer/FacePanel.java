@@ -53,7 +53,7 @@ public class FacePanel extends JPanel implements Observer {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
-        // Рисуем лицо (жёлтый круг)
+        // Рисуем лицо
         g2d.setColor(Color.YELLOW);
         g2d.fillOval(50, 50, 300, 300);
         g2d.setColor(Color.BLACK);
