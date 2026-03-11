@@ -104,7 +104,7 @@ public class Auto implements Vehicle, Cloneable, Serializable {
             }
         }
     }
-
+    // Memento
     public Memento createMemento() {
         Memento memento = new Memento();
         memento.setAuto(this);
@@ -119,6 +119,7 @@ public class Auto implements Vehicle, Cloneable, Serializable {
         }
     }
 
+    //Iterator
     public Iterator<Model> iterator() {
         return new AutoIterator();
     }

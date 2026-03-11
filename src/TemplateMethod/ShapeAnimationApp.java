@@ -4,10 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ShapeAnimationApp extends JFrame {
-    private DrawingPanel drawingPanel;
+    private final DrawingPanel drawingPanel;
     private volatile boolean running = true;
-    private Thread animationThread;
-    private int shapeCounter = 0; // для чередования типов фигур
+    private final JRadioButton ballRadio;
+    private final JRadioButton squareRadio;
 
     public ShapeAnimationApp() {
         setTitle("Прыгающие фигуры");
@@ -19,15 +19,30 @@ public class ShapeAnimationApp extends JFrame {
         drawingPanel.setBackground(Color.WHITE);
         add(drawingPanel, BorderLayout.CENTER);
 
-        JPanel buttonPanel = new JPanel();
+        // Панель для кнопок выбора и запуска
+        JPanel controlPanel = new JPanel();
+        controlPanel.setLayout(new FlowLayout());
+
+        // Группа радио-кнопок для выбора типа фигуры
+        ballRadio = new JRadioButton("Мяч", true); // по умолчанию выбран мяч
+        squareRadio = new JRadioButton("Квадрат");
+        // радио-кнопки выбора
+        JRadioButton starRadio = new JRadioButton("Звезда");
+
+        ButtonGroup shapeGroup = new ButtonGroup();
+        shapeGroup.add(ballRadio);
+        shapeGroup.add(squareRadio);
+        shapeGroup.add(starRadio);
+
+        controlPanel.add(ballRadio);
+        controlPanel.add(squareRadio);
+        controlPanel.add(starRadio);
+
         JButton startButton = new JButton("Пуск");
         JButton closeButton = new JButton("Закрыть");
 
         startButton.addActionListener(e -> {
-            addNewShape();
-            if (animationThread == null || !animationThread.isAlive()) {
-                startAnimation();
-            }
+            addNewShape(); // добавляем фигуру выбранного типа
         });
 
         closeButton.addActionListener(e -> {
@@ -36,64 +51,50 @@ public class ShapeAnimationApp extends JFrame {
             System.exit(0);
         });
 
-        buttonPanel.add(startButton);
-        buttonPanel.add(closeButton);
-        add(buttonPanel, BorderLayout.SOUTH);
+        controlPanel.add(startButton);
+        controlPanel.add(closeButton);
+
+        add(controlPanel, BorderLayout.SOUTH);
     }
 
     private void addNewShape() {
         int panelWidth = drawingPanel.getWidth();
         int panelHeight = drawingPanel.getHeight();
-        if (panelWidth == 0) panelWidth = 600; // на случай, если ещё не отрисовано
+        if (panelWidth == 0) panelWidth = 600;
         if (panelHeight == 0) panelHeight = 400;
 
         int size = 50;
         int startX = panelWidth - size;
         int startY = panelHeight - size;
-        int dx = -2; // влево
-        int dy = -2; // вверх
+        int dx = -2;
+        int dy = -2;
 
+        // Определяем тип фигуры по выбранной радио-кнопке
         MovingShape newShape;
-        switch (shapeCounter % 3) {
-            case 0:
-                newShape = new Ball(startX, startY, size, dx, dy, panelWidth, panelHeight);
-                break;
-            case 1:
-                newShape = new Square(startX, startY, size, dx, dy, panelWidth, panelHeight);
-                break;
-            default:
-                newShape = new Star(startX, startY, size, dx, dy, panelWidth, panelHeight);
-                break;
+        if (ballRadio.isSelected()) {
+            newShape = new Ball(startX, startY, size, dx, dy, panelWidth, panelHeight);
+        } else if (squareRadio.isSelected()) {
+            newShape = new Square(startX, startY, size, dx, dy, panelWidth, panelHeight);
+        } else {
+            newShape = new Star(startX, startY, size, dx, dy, panelWidth, panelHeight);
         }
-        shapeCounter++;
-        drawingPanel.addShape(newShape);
-    }
 
-    private void startAnimation() {
-        animationThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (running) {
-                    // Обновляем позиции всех фигур
-                    for (MovingShape shape : drawingPanel.getShapes()) {
-                        shape.move();
-                    }
-                    // Перерисовываем панель в EDT
-                    SwingUtilities.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            drawingPanel.repaint();
-                        }
-                    });
-                    try {
-                        Thread.sleep(30); // ~33 кадра в секунду
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                    }
+        drawingPanel.addShape(newShape);
+
+        // Запускаем отдельный поток
+        Thread shapeThread = new Thread(() -> {
+            while (running) {
+                newShape.move();
+                SwingUtilities.invokeLater(() -> drawingPanel.repaint());
+                try {
+                    Thread.sleep(30);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    break;
                 }
             }
         });
-        animationThread.start();
+        shapeThread.start();
     }
 
     public static void main(String[] args) {

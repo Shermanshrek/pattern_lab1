@@ -13,7 +13,7 @@ public class HappyState implements State {
         g.drawLine(x, y + 80, x + 20, y + 120);
         // Голова
         g.drawOval(x - 30, y - 30, 60, 60);
-        // Глаза открыты (круги)
+        // Глаза открыты
         g.fillOval(x - 15, y - 15, 8, 8);
         g.fillOval(x + 7, y - 15, 8, 8);
         // Улыбка
