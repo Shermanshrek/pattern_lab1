@@ -23,6 +23,11 @@ public class Auto implements Vehicle, Cloneable, Serializable {
         }
     }
 
+    public Auto(String brand) {
+        this.brand = brand;
+        models = new Model[0];
+    }
+
     @Override
     protected Auto clone() throws CloneNotSupportedException {
         Auto res = null;
@@ -222,16 +227,12 @@ public class Auto implements Vehicle, Cloneable, Serializable {
     }
 
     private boolean isUnique(String modelName) {
-        boolean flag = false;
         for (Model model : models) {
             if (model.modelName.equals(modelName)) {
-                flag = false;
-                break;
-            } else {
-                flag = true;
+                return false;
             }
         }
-        return flag;
+        return true;
     }
 
     //Command

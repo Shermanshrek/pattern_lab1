@@ -5,7 +5,10 @@ import exceptions.DuplicateModelNameException;
 import exceptions.ModelPriceOutOfBoundsException;
 import exceptions.NoSuchModelNameException;
 
-public class Motorcycle implements Vehicle, Cloneable {
+import java.io.Serial;
+import java.io.Serializable;
+
+public class Motorcycle implements Vehicle, Cloneable, Serializable {
     private String brand;
     private Model head = new Model();
 
@@ -22,6 +25,14 @@ public class Motorcycle implements Vehicle, Cloneable {
         for (int i = 0; i < size; i++) {
             addModel("Moto" + i, 1 + i);
         }
+    }
+
+    public Motorcycle(String brand) {
+        this.brand = brand;
+        head = new Model();
+        head.next = head;
+        head.prev = head;
+        size = 0;
     }
 
     @Override
@@ -52,7 +63,9 @@ public class Motorcycle implements Vehicle, Cloneable {
         return cloned;
     }
 
-    private class Model implements Cloneable {
+    private static class Model implements Cloneable, Serializable {
+        @Serial
+        private static final long serialVersionUID = 1L;
         String modelName = null;
         double price = Double.NaN;
         Model prev = null;
