@@ -7,9 +7,18 @@ import java.util.List;
 public class FunctionTableModel extends AbstractTableModel {
     private final List<Point> points = new ArrayList<>();
     private final String[] columnNames = {"x", "y"};
+    private final String formula;
 
     private double f(double x) {
         return x * x;
+    }
+
+    public FunctionTableModel(String formula) {
+        this.formula = formula;
+    }
+
+    public String getFormula() {
+        return formula;
     }
 
     public void addPoint(double x) {
